@@ -48,7 +48,6 @@ class Network:
             self.Layers[i].nodeSums = np.matmul(self.Layers[i-1].activationValues, self.Layers[i].weights.T) + self.Layers[i].biases
             self.Layers[i].activationValues = af.sigmoid(self.Layers[i].nodeSums)
 
-
     def propagateBackwards(self):
         outputLayer = self.numOfLayers-1
         propagatedCostC = 0
