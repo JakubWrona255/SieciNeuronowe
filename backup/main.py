@@ -46,6 +46,7 @@ def softmax(Z):
 
 
 def forward_prop(W1, b1, W2, b2, X):
+
     Z1 = W1.dot(X) + b1
     A1 = ReLU(Z1)
     Z2 = W2.dot(A1) + b2
@@ -90,7 +91,7 @@ def get_predictions(A2):
 
 
 def get_accuracy(predictions, Y):
-    print(Y,predictions)
+    #print(Y,predictions)
     return np.sum(predictions == Y) / Y.size
 
 
