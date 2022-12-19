@@ -78,8 +78,8 @@ def read_mnist_from_csv(path):
     data = pd.read_csv(path)
     data = np.array(data)
     m, n = data.shape
-    m = 4100              #obcinamy set do x przykładów
-    testSplit = 500
+    m = 1000              #obcinamy set do x przykładów bylo 4100
+    testSplit = 500       #bylo 500
 
     dataTest = data[0:testSplit]
     dataTrain = data[testSplit:m]
@@ -199,6 +199,8 @@ def train(X, Y,X_test, Y_test, alpha, iterations):
     filters = init_filters()
     dev_prediction = 0
 
+    accuracy_table = []
+
     for j in range(iterations):
 
         st = time.time()
@@ -219,8 +221,9 @@ def train(X, Y,X_test, Y_test, alpha, iterations):
             predictions = get_predictions(A2)
             print("Train accuracy: ", get_accuracy(predictions, Y))
             dev_prediction = run_test_prediction(X_test,Y_test, filters, W1, b1, W2, b2)
+            accuracy_table.append((j,get_accuracy(predictions, Y)))
 
-    return W1, b1, W2, b2, filters,dev_prediction
+    return W1, b1, W2, b2, filters,dev_prediction,accuracy_table
 
 
 def run_test_prediction(X_test,Y_test, filters, W1, b1, W2, b2):
@@ -269,12 +272,19 @@ def show_subplots(start,stop,dev_prediction):
 if __name__ == '__main__':
     st1 = time.time()
     X_train, Y_train, X_test, Y_test = read_mnist_from_csv('train.csv')
-    W1, b1, W2,b2,filters, dev_prediction = train(X_train, Y_train,X_test, Y_test, 0.05,20)
+    W1, b1, W2,b2,filters, dev_prediction, accuracy_table = train(X_train, Y_train,X_test, Y_test, 0.05,20)
     np.save('W_1_2',W1)
     np.save('W_2_2',W2)
     np.save('b_1_2',b1)
     np.save('b_2_2',b2)
     np.save('filters_2',filters)
+
+    x,y = zip(*accuracy_table)
+    print(x,y)
+    plt.plot(x, y)
+    plt.xlabel('Ilosc Epochow')
+    plt.ylabel('Accuracy')
+    plt.show()
 
     #show_subplots(9, 18, dev_prediction)
     #show_subplots(18, 27, dev_prediction)
