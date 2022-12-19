@@ -36,7 +36,7 @@ def init_params():
 
     edge_1 = np.array([
             [-1,-1,-1],
-            [ -1,4, -1],
+            [-1, 4, -1],
             [-1,-1,-1]])
     edge_2 = np.array([
         [-1, -1, -1],
@@ -138,18 +138,18 @@ def main():
     filters = init_params()
     X_test_data = conv_forward(X_test,filters)
 
-    print(X_test_data.shape)
-   #for i in range(0,10):
-   #    for j in range(0,11):
-   #        current_image = X_test_data[i,j]
-   #        print(current_image)
-   #        plt.imshow(current_image, interpolation='nearest')
-   #        plt.show()
+    for i in range(0,10):
+        for j in range(0,9):
+            current_image = X_test_data[i,j]
+            plt.subplot(330 + 1 + j)
+            X_show = current_image
+            title = "Mask: " + str(j)
+            plt.title(title)
+            single_img = X_show.reshape((28, 28)) * 255
+            plt.imshow(single_img)#, cmap=plt.get_cmap('gray'))
 
-    X_test = flatten(X_test_data)
-
-    print(X_test.shape)
-
+        plt.tight_layout()
+        plt.show()
 
 
 main()
